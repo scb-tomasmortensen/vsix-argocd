@@ -28,8 +28,11 @@ TypeScript Compiler: `npm install -g typescript`
 Make sure you are in the correct folder (task) and compile typescript files using `tsc`.
 To run the task, we can use node like this: `node index.js`, make sure that any variables are set beforehand ($env:INPUT_SOMEVARIABLE "SomeValue")
 
+tfx extension create --manifest-globs vss-extension.json
+
 ## References
 
 <https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-build-task?view=azure-devops>
 <https://docs.microsoft.com/en-us/azure/devops/extend/develop/integrate-build-task?view=azure-devops>
+<https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=azure-devops>
 <https://www.guidgen.com/>
