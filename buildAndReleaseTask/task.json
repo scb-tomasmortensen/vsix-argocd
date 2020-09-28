@@ -1,0 +1,31 @@
+{
+    "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
+    "id": "bd21f478-3d95-4f48-ae21-7fd1fc8dd22e",
+    "name": "vsix-argocd",
+    "friendlyName": "Argo CD Extension",
+    "description": "Provides support for extending Azure DevOps pipelines with Argo CD integration.",
+    "helpMarkDown": "",
+    "category": "Utility",
+    "author": "Tomas Mortensen - Statistics Sweden",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 0
+    },
+    "instanceNameFormat": "Echo $(samplestring)",
+    "inputs": [
+        {
+            "name": "samplestring",
+            "type": "string",
+            "label": "Sample String",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "A sample string"
+        }
+    ],
+    "execution": {
+        "Node10": {
+            "target": "index.js"
+        }
+    }
+}
