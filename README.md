@@ -4,6 +4,7 @@ A little extension to be able to fit into the Azure DevOps Pipelines.
 
 ## Features
 
+Enables a service connection of type Argo CD to be setup.
 Sync - To be able to use the sheduling feature of Releases in ADS.
 
 ## How its made
@@ -36,3 +37,4 @@ tfx extension create --manifest-globs vss-extension.json
 <https://docs.microsoft.com/en-us/azure/devops/extend/develop/integrate-build-task?view=azure-devops>
 <https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=azure-devops>
 <https://www.guidgen.com/>
+<https://jsonpath.com/>

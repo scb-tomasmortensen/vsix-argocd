@@ -6,13 +6,17 @@
     "description": "Provides support for extending Azure DevOps pipelines with Argo CD integration.",
     "helpMarkDown": "",
     "category": "Utility",
+    "visibility": [
+        "Build",
+        "Release"
+    ],
     "author": "Tomas Mortensen - Statistics Sweden",
     "version": {
         "Major": 0,
         "Minor": 1,
         "Patch": 0
     },
-    "instanceNameFormat": "Echo $(samplestring)",
+    "instanceNameFormat": "Argo CD Task $(project)",
     "inputs": [
         {
             "name": "samplestring",
@@ -21,6 +25,31 @@
             "defaultValue": "",
             "required": true,
             "helpMarkDown": "A sample string"
+        },
+        {
+            "name": "ArgoCDService",
+            "type": "connectedService:argocd",
+            "label": "Argo CD server endpoint",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Select the Argo CD endpoint to use. If needed, selecton 'manage', and add a new service endpoint of type 'Argo CD server connection'"
+        },
+        {
+            "name": "application",
+            "type": "pickList",
+            "label": "Argo CD Application",
+            "required": true,
+            "helpMarkDown": "Select the name of the Argo CD application to perform task on.",
+            "properties": {
+                "EditableOptions": "True"
+            }
+        }
+    ],
+    "dataSourceBindings": [
+        {
+            "target": "application",
+            "endpointId": "$(ArgoCDService)",
+            "dataSourceName": "Argo CD Applications"
         }
     ],
     "execution": {
