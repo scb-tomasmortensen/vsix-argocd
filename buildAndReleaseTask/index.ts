@@ -9,6 +9,7 @@ export class TaskOptions {
     serverEndpointAuth: tl.EndpointAuthorization;
     username: string;
     password: string;
+    token: string;
 
     strictSSL: boolean;
 
@@ -19,6 +20,7 @@ export class TaskOptions {
         this.serverEndpointAuth = tl.getEndpointAuthorization(this.serverEndpoint, false)!;
         this.username = this.serverEndpointAuth['parameters']['username'];
         this.password = this.serverEndpointAuth['parameters']['password'];
+        this.token = this.serverEndpointAuth['parameters']['AccessToken'];
 
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
@@ -42,40 +44,54 @@ export function getFullErrorMessage(httpResponse: { statusCode: any; statusMessa
     return fullMessage;
 }
 
-async function run() {
-    try {
-
-        tl.setResourcePath(path.join(__dirname, 'task.json'));
-
-        const taskOptions: TaskOptions = new TaskOptions();
-
-        console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
-
-        let command = tl.getInput("command", true)!.toLowerCase();
-        console.log('Selected command:', command);
-
-        const inputString: string | undefined = tl.getInput('samplestring', true);
-        if (inputString == 'bad') {
-            tl.setResult(tl.TaskResult.Failed, 'Bad input was given');
-            return;
+function sync(endpointUrl: string, applicationName: string, token: string) {
+    const url = endpointUrl + `api/v1/applications/${applicationName}/sync`;
+    const body = {
+        'dryRun': false,
+        'prune': true,
+        'strategy': {
+            'apply': {
+                'force': true
+            }
         }
-        console.log('Hello', inputString);
-    }
-    catch (err) {
-        let message: string;
-        if (err instanceof HttpError) {
-            message = err.message;
-            console.error(err.fullMessage);
-            console.error(err.body);
-        } else if (err instanceof Error) {
-            message = err.message;
-            console.error(err);
+    };
+    const headers = {
+        'Authorization': `token ${token}`,
+        'Content-Type': 'application/json'
+    };
+
+    const request = new WebRequest();
+    request.uri = url;
+    request.body = JSON.stringify(body);
+    request.headers = headers;
+    request.method = 'POST';
+
+    return sendRequest(request).then((response: WebResponse) => {
+        if (response.statusCode !== 201) {
+            tl.debug(JSON.stringify(response));
+            console.log(response);
+            throw new Error('WriteFailed');
         } else {
-            message = err;
-            console.error(err);
+            console.log('WriteSucceeded');
         }
-        tl.setResult(tl.TaskResult.Failed, message);
-    }
+    });
 }
 
-run();
+async function run() {
+    tl.setResourcePath(path.join(__dirname, 'task.json'));
+
+    const taskOptions: TaskOptions = new TaskOptions();
+
+    console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
+
+    let command = tl.getInput("command", true)!.toLowerCase();
+    console.log('Selected command:', command);
+
+    //  ************** TRY TO SEND THE SYNC-POST TO ARGO CD SERVER **************
+    const applicationName = tl.getInput('application', true)!;
+    return sync(taskOptions.serverEndpointUrl, applicationName, "token");
+}
+
+run()
+    .then(() => tl.setResult(tl.TaskResult.Succeeded, ''))
+    .catch((error: Error) => tl.setResult(tl.TaskResult.Failed, error.message));

@@ -30,6 +30,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFullErrorMessage = exports.HttpError = exports.TaskOptions = void 0;
 const tl = __importStar(require("azure-pipelines-task-lib/task"));
+const httpClient_1 = require("./httpClient");
 const path = __importStar(require("path"));
 class TaskOptions {
     constructor() {
@@ -39,6 +40,7 @@ class TaskOptions {
         this.serverEndpointAuth = tl.getEndpointAuthorization(this.serverEndpoint, false);
         this.username = this.serverEndpointAuth['parameters']['username'];
         this.password = this.serverEndpointAuth['parameters']['password'];
+        this.token = this.serverEndpointAuth['parameters']['AccessToken'];
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
     }
@@ -58,38 +60,49 @@ function getFullErrorMessage(httpResponse, message) {
     return fullMessage;
 }
 exports.getFullErrorMessage = getFullErrorMessage;
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            tl.setResourcePath(path.join(__dirname, 'task.json'));
-            const taskOptions = new TaskOptions();
-            console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
-            let command = tl.getInput("command", true).toLowerCase();
-            console.log('Selected command:', command);
-            const inputString = tl.getInput('samplestring', true);
-            if (inputString == 'bad') {
-                tl.setResult(tl.TaskResult.Failed, 'Bad input was given');
-                return;
+function sync(endpointUrl, applicationName, token) {
+    const url = endpointUrl + `api/v1/applications/${applicationName}/sync`;
+    const body = {
+        'dryRun': false,
+        'prune': true,
+        'strategy': {
+            'apply': {
+                'force': true
             }
-            console.log('Hello', inputString);
         }
-        catch (err) {
-            let message;
-            if (err instanceof HttpError) {
-                message = err.message;
-                console.error(err.fullMessage);
-                console.error(err.body);
-            }
-            else if (err instanceof Error) {
-                message = err.message;
-                console.error(err);
-            }
-            else {
-                message = err;
-                console.error(err);
-            }
-            tl.setResult(tl.TaskResult.Failed, message);
+    };
+    const headers = {
+        'Authorization': `token ${token}`,
+        'Content-Type': 'application/json'
+    };
+    const request = new httpClient_1.WebRequest();
+    request.uri = url;
+    request.body = JSON.stringify(body);
+    request.headers = headers;
+    request.method = 'POST';
+    return httpClient_1.sendRequest(request).then((response) => {
+        if (response.statusCode !== 201) {
+            tl.debug(JSON.stringify(response));
+            console.log(response);
+            throw new Error('WriteFailed');
+        }
+        else {
+            console.log('WriteSucceeded');
         }
     });
 }
-run();
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        tl.setResourcePath(path.join(__dirname, 'task.json'));
+        const taskOptions = new TaskOptions();
+        console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
+        let command = tl.getInput("command", true).toLowerCase();
+        console.log('Selected command:', command);
+        //  ************** TRY TO SEND THE SYNC-POST TO ARGO CD SERVER **************
+        const applicationName = tl.getInput('application', true);
+        return sync(taskOptions.serverEndpointUrl, applicationName, "token");
+    });
+}
+run()
+    .then(() => tl.setResult(tl.TaskResult.Succeeded, ''))
+    .catch((error) => tl.setResult(tl.TaskResult.Failed, error.message));

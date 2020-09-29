@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.4",
+    "version": "0.0.8",
     "publisher": "tomasmortensen",
     "targets": [
         {
@@ -39,7 +39,7 @@
                 "dataSources": [
                     {
                         "name": "Applications",
-                        "endpointUrl": "{{endpoint.url}}api/v1/applications",
+                        "endpointUrl": "{{service-endpoint.url}}api/v1/applications",
                         "resultSelector": "jsonpath:$.items[*].metadata.name"
                     }
                 ],
