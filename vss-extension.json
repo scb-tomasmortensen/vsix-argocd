@@ -2,14 +2,14 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "publisher": "tomasmortensen",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "Tools for releasing with ArgoCD.",
+    "description": "Argo CD integration.",
     "categories": [
         "Azure Pipelines"
     ],
@@ -39,7 +39,7 @@
                 "dataSources": [
                     {
                         "name": "Applications",
-                        "endpointUrl": "{{endpoint.url}}api/v1/application",
+                        "endpointUrl": "{{endpoint.url}}api/v1/applications",
                         "resultSelector": "jsonpath:$.items[*].metadata.name"
                     }
                 ],

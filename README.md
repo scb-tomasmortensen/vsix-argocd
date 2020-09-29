@@ -44,7 +44,7 @@ argocd proj role get default sync-role
 argocd proj role add-policy default sync-role --action sync --permission allow --object devops-jedi
 argocd proj role add-policy default sync-role --action override --permission allow --object devops-jedi
 
-https://argocd-server-argocd.apps.scbclu01.scbeval.net/api/v1/applications/devops-jedi/sync
+<https://argocd-server-argocd.apps.scbclu01.scbeval.net/api/v1/applications/devops-jedi/sync>
 
 {
   "dryRun": false,
