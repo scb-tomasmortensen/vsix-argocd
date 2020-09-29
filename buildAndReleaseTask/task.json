@@ -1,8 +1,8 @@
 {
     "$schema": "https://raw.githubusercontent.com/Microsoft/azure-pipelines-task-lib/master/tasks.schema.json",
     "id": "bd21f478-3d95-4f48-ae21-7fd1fc8dd22e",
-    "name": "vsix-argocd",
-    "friendlyName": "Argo CD Extension",
+    "name": "vsix-argocd-task",
+    "friendlyName": "Argo CD Task",
     "description": "Provides support for extending Azure DevOps pipelines with Argo CD integration.",
     "helpMarkDown": "",
     "category": "Utility",
@@ -14,18 +14,10 @@
     "version": {
         "Major": 0,
         "Minor": 1,
-        "Patch": 0
+        "Patch": 1
     },
     "instanceNameFormat": "Argo CD Task $(project)",
     "inputs": [
-        {
-            "name": "samplestring",
-            "type": "string",
-            "label": "Sample String",
-            "defaultValue": "",
-            "required": true,
-            "helpMarkDown": "A sample string"
-        },
         {
             "name": "ArgoCDService",
             "type": "connectedService:argocd",
@@ -37,12 +29,20 @@
         {
             "name": "application",
             "type": "pickList",
-            "label": "Argo CD Application",
+            "label": "Application",
             "required": true,
-            "helpMarkDown": "Select the name of the Argo CD application to perform task on.",
+            "helpMarkDown": "Select the Argo CD application to perform tasks on.",
             "properties": {
                 "EditableOptions": "True"
             }
+        },
+        {
+            "name": "samplestring",
+            "type": "string",
+            "label": "Sample String",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "A sample string"
         }
     ],
     "dataSourceBindings": [

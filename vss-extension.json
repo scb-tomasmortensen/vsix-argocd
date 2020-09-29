@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "publisher": "tomasmortensen",
     "targets": [
         {
@@ -31,14 +31,14 @@
             ],
             "properties": {
                 "name": "argocd",
-                "displayName": "Argo CD server connection",
+                "displayName": "Argo CD",
                 "url": {
                     "displayName": "Server Url",
                     "helpText": "Url for the Argo CD server to connect to."
                 },
                 "dataSources": [
                     {
-                        "name": "Argo CD Applications",
+                        "name": "Applications",
                         "endpointUrl": "{{endpoint.url}}api/v1/application",
                         "resultSelector": "jsonpath:$.items[*].metadata.name"
                     }
