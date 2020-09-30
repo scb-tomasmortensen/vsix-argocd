@@ -40,7 +40,7 @@ class TaskOptions {
         this.serverEndpointAuth = tl.getEndpointAuthorization(this.serverEndpoint, false);
         this.username = this.serverEndpointAuth['parameters']['username'];
         this.password = this.serverEndpointAuth['parameters']['password'];
-        this.token = this.serverEndpointAuth['parameters']['AccessToken'];
+        this.token = this.serverEndpointAuth['parameters']['apitoken'];
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
     }
@@ -72,7 +72,7 @@ function sync(endpointUrl, applicationName, token) {
         }
     };
     const headers = {
-        'Authorization': `token ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
     };
     const request = new httpClient_1.WebRequest();
@@ -81,7 +81,7 @@ function sync(endpointUrl, applicationName, token) {
     request.headers = headers;
     request.method = 'POST';
     return httpClient_1.sendRequest(request).then((response) => {
-        if (response.statusCode !== 201) {
+        if (response.statusCode !== 200) {
             tl.debug(JSON.stringify(response));
             console.log(response);
             throw new Error('WriteFailed');
@@ -96,11 +96,14 @@ function run() {
         tl.setResourcePath(path.join(__dirname, 'task.json'));
         const taskOptions = new TaskOptions();
         console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
+        console.log('Service Endpoint Scheme:', taskOptions.serverEndpointAuth.scheme);
         let command = tl.getInput("command", true).toLowerCase();
         console.log('Selected command:', command);
         //  ************** TRY TO SEND THE SYNC-POST TO ARGO CD SERVER **************
         const applicationName = tl.getInput('application', true);
-        return sync(taskOptions.serverEndpointUrl, applicationName, "token");
+        console.log('Selected Application:', applicationName);
+        console.log('Temp token:', taskOptions.token);
+        return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token);
     });
 }
 run()

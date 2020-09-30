@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.8",
+    "version": "0.0.15",
     "publisher": "tomasmortensen",
     "targets": [
         {
@@ -39,13 +39,19 @@
                 "dataSources": [
                     {
                         "name": "Applications",
-                        "endpointUrl": "{{service-endpoint.url}}api/v1/applications",
+                        "endpointUrl": "{{endpoint.url}}api/v1/applications",
                         "resultSelector": "jsonpath:$.items[*].metadata.name"
                     }
                 ],
                 "authenticationSchemes": [
                     {
-                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token"
+                        "type": "ms.vss-endpoint.endpoint-auth-scheme-token",
+                        "headers": [
+                            {
+                                "name": "Authorization",
+                                "value": "Bearer {{endpoint.apitoken}}"
+                            }
+                        ]
                     },
                     {
                         "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",

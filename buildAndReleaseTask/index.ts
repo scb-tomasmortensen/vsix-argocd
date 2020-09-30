@@ -20,7 +20,7 @@ export class TaskOptions {
         this.serverEndpointAuth = tl.getEndpointAuthorization(this.serverEndpoint, false)!;
         this.username = this.serverEndpointAuth['parameters']['username'];
         this.password = this.serverEndpointAuth['parameters']['password'];
-        this.token = this.serverEndpointAuth['parameters']['AccessToken'];
+        this.token = this.serverEndpointAuth['parameters']['apitoken'];
 
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
@@ -56,7 +56,7 @@ function sync(endpointUrl: string, applicationName: string, token: string) {
         }
     };
     const headers = {
-        'Authorization': `token ${token}`,
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json'
     };
 
@@ -67,7 +67,7 @@ function sync(endpointUrl: string, applicationName: string, token: string) {
     request.method = 'POST';
 
     return sendRequest(request).then((response: WebResponse) => {
-        if (response.statusCode !== 201) {
+        if (response.statusCode !== 200) {
             tl.debug(JSON.stringify(response));
             console.log(response);
             throw new Error('WriteFailed');
@@ -83,13 +83,16 @@ async function run() {
     const taskOptions: TaskOptions = new TaskOptions();
 
     console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
+    console.log('Service Endpoint Scheme:', taskOptions.serverEndpointAuth.scheme);
 
     let command = tl.getInput("command", true)!.toLowerCase();
     console.log('Selected command:', command);
 
     //  ************** TRY TO SEND THE SYNC-POST TO ARGO CD SERVER **************
     const applicationName = tl.getInput('application', true)!;
-    return sync(taskOptions.serverEndpointUrl, applicationName, "token");
+    console.log('Selected Application:', applicationName);
+    console.log('Temp token:', taskOptions.token);
+    return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token);
 }
 
 run()
