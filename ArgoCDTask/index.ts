@@ -3,15 +3,18 @@ import { sendRequest, WebRequest, WebResponse } from './httpClient';
 import * as path from 'path';
 
 export class TaskOptions {
+
+    // Service Connection
     serverEndpoint: string;
     serverEndpointUrl: string;
-
     serverEndpointAuth: tl.EndpointAuthorization;
     username: string;
     password: string;
     token: string;
-
     strictSSL: boolean;
+
+    // Sync command
+    isDryRun: boolean;
 
     constructor() {
         this.serverEndpoint = tl.getInput('ArgoCDService', true)!;
@@ -21,9 +24,10 @@ export class TaskOptions {
         this.username = this.serverEndpointAuth['parameters']['username'];
         this.password = this.serverEndpointAuth['parameters']['password'];
         this.token = this.serverEndpointAuth['parameters']['apitoken'];
-
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
+
+        this.isDryRun = tl.getBoolInput('DryRunFlag', false)!;
     }
 }
 
@@ -44,10 +48,10 @@ export function getFullErrorMessage(httpResponse: { statusCode: any; statusMessa
     return fullMessage;
 }
 
-function sync(endpointUrl: string, applicationName: string, token: string) {
+function sync(endpointUrl: string, applicationName: string, token: string, isDryRun: boolean) {
     const url = endpointUrl + `api/v1/applications/${applicationName}/sync`;
     const body = {
-        'dryRun': false,
+        'dryRun': isDryRun,
         'prune': true,
         'strategy': {
             'apply': {
@@ -91,7 +95,9 @@ async function run() {
     const applicationName = tl.getInput('argocdApplication', true)!;
     console.log('Selected Application:', applicationName);
 
-    return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token);
+    console.log('Dry Run:', taskOptions.isDryRun);
+
+    return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token, taskOptions.isDryRun);
 }
 
 run()

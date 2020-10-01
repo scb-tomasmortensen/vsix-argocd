@@ -13,7 +13,7 @@
     "author": "Tomas Mortensen - Statistics Sweden",
     "version": {
         "Major": 0,
-        "Minor": 18,
+        "Minor": 19,
         "Patch": 0
     },
     "instanceNameFormat": "Argo CD Task $(project)",
@@ -49,6 +49,14 @@
                 "EditableOptions": "False"
             },
             "helpMarkDown": "Select a Argo CD command."
+        },
+        {
+            "name": "DryRunFlag",
+            "type": "boolean",
+            "label": "DRY RUN",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Set this to be able to test the selected command.<br />By default this command will be executed."
         }
     ],
     "dataSourceBindings": [

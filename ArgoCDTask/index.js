@@ -43,6 +43,7 @@ class TaskOptions {
         this.token = this.serverEndpointAuth['parameters']['apitoken'];
         this.strictSSL = ('true' !== tl.getEndpointDataParameter(this.serverEndpoint, 'acceptUntrustedCerts', true));
         tl.debug('strictSSL=' + this.strictSSL);
+        this.isDryRun = tl.getBoolInput('DryRunFlag', false);
     }
 }
 exports.TaskOptions = TaskOptions;
@@ -60,10 +61,10 @@ function getFullErrorMessage(httpResponse, message) {
     return fullMessage;
 }
 exports.getFullErrorMessage = getFullErrorMessage;
-function sync(endpointUrl, applicationName, token) {
+function sync(endpointUrl, applicationName, token, isDryRun) {
     const url = endpointUrl + `api/v1/applications/${applicationName}/sync`;
     const body = {
-        'dryRun': false,
+        'dryRun': isDryRun,
         'prune': true,
         'strategy': {
             'apply': {
@@ -101,7 +102,8 @@ function run() {
         console.log('Selected command:', command);
         const applicationName = tl.getInput('argocdApplication', true);
         console.log('Selected Application:', applicationName);
-        return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token);
+        console.log('Dry Run:', taskOptions.isDryRun);
+        return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token, taskOptions.isDryRun);
     });
 }
 run()
