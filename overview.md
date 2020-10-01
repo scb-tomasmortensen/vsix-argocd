@@ -8,11 +8,8 @@ This extension allows you to setup a service connection against your Argo CD ser
 > Possibility to create service connection to Argo CD.
 >
 > Schedule deployment by deferred execution of sync command in your release pipelines.
-
-
-The Argo CD Extension include the following contributions:
-
-**1. Argo CD Task**
+>
+> Includes DRY RUN option for testing.
 
 
 ## Release notes ##
@@ -20,6 +17,12 @@ The Argo CD Extension include the following contributions:
 * v0.1.0
     
     Service Connection and sync-command.
+
+## Verified on the following platforms ##
+
+Azure DevOps Server 2019
+
+Argo CD version 1.6.1+ (running in Openshift using Argo CD - version 0.0.13 operator)
 
 ## Learn more ##
 
