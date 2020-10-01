@@ -5,7 +5,7 @@
     "friendlyName": "Argo CD Task",
     "description": "Provides support for extending Azure DevOps pipelines with Argo CD integration.",
     "helpMarkDown": "",
-    "category": "Utility",
+    "category": "Deploy",
     "visibility": [
         "Build",
         "Release"
@@ -13,7 +13,7 @@
     "author": "Tomas Mortensen - Statistics Sweden",
     "version": {
         "Major": 0,
-        "Minor": 17,
+        "Minor": 18,
         "Patch": 0
     },
     "instanceNameFormat": "Argo CD Task $(project)",

@@ -18,7 +18,7 @@
     },
     "files": [
         {
-            "path": "buildAndReleaseTask"
+            "path": "ArgoCDTask"
         }
     ],
     "tags": [
@@ -110,7 +110,7 @@
                 "ms.vss-distributed-task.tasks"
             ],
             "properties": {
-                "name": "buildAndReleaseTask"
+                "name": "ArgoCDTask"
             }
         }
     ]
