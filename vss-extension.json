@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.20",
+    "version": "0.0.21",
     "publisher": "tomasmortensen",
     "targets": [
         {
@@ -21,6 +21,21 @@
             "path": "buildAndReleaseTask"
         }
     ],
+    "tags": [
+        "Argo CD",
+        "argocd",
+        "Pipelines",
+        "cd",
+        "continuous deployment"
+    ],
+    "content": {
+        "license": {
+            "path": "license.md"
+        },
+        "details": {
+            "path": "overview.md"
+        }
+    },
     "contributions": [
         {
             "id": "argocd",
