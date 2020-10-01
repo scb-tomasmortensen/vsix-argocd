@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.15",
+    "version": "0.0.20",
     "publisher": "tomasmortensen",
     "targets": [
         {
@@ -23,7 +23,7 @@
     ],
     "contributions": [
         {
-            "id": "service-endpoint",
+            "id": "argocd",
             "description": "Service endpoint type for Argo CD connections",
             "type": "ms.vss-endpoint.service-endpoint-type",
             "targets": [
@@ -38,7 +38,12 @@
                 },
                 "dataSources": [
                     {
-                        "name": "Applications",
+                        "name": "ArgoCDApplications",
+                        "endpointUrl": "{{endpoint.url}}api/v1/applications",
+                        "resultSelector": "jsonpath:$.items[*].metadata.name"
+                    },
+                    {
+                        "name": "TestConnection",
                         "endpointUrl": "{{endpoint.url}}api/v1/applications",
                         "resultSelector": "jsonpath:$.items[*].metadata.name"
                     }

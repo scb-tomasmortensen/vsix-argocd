@@ -70,9 +70,9 @@ function sync(endpointUrl: string, applicationName: string, token: string) {
         if (response.statusCode !== 200) {
             tl.debug(JSON.stringify(response));
             console.log(response);
-            throw new Error('WriteFailed');
+            throw new Error('Argo CD operation failed.');
         } else {
-            console.log('WriteSucceeded');
+            console.log('Argo CD operation completed successfully.');
         }
     });
 }
@@ -85,13 +85,12 @@ async function run() {
     console.log('Service Endoint URL:', taskOptions.serverEndpointUrl);
     console.log('Service Endpoint Scheme:', taskOptions.serverEndpointAuth.scheme);
 
-    let command = tl.getInput("command", true)!.toLowerCase();
+    let command = tl.getInput("argocdCommand", true)!.toLowerCase();
     console.log('Selected command:', command);
 
-    //  ************** TRY TO SEND THE SYNC-POST TO ARGO CD SERVER **************
-    const applicationName = tl.getInput('application', true)!;
+    const applicationName = tl.getInput('argocdApplication', true)!;
     console.log('Selected Application:', applicationName);
-    console.log('Temp token:', taskOptions.token);
+
     return sync(taskOptions.serverEndpointUrl, applicationName, taskOptions.token);
 }
 
