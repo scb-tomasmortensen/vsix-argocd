@@ -14,7 +14,6 @@ The Argo CD Extension include the following contributions:
 
 **1. Argo CD Task**
 
-![Image](./images/screenshot1.png)
 
 ## Release notes ##
 
