@@ -3,7 +3,7 @@
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
     "version": "0.1.0",
-    "publisher": "tomasmortensen",
+    "publisher": "scb-tomasmortensen",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
