@@ -12,8 +12,8 @@
     ],
     "author": "Tomas Mortensen - Statistics Sweden",
     "version": {
-        "Major": 0,
-        "Minor": 19,
+        "Major": 1,
+        "Minor": 0,
         "Patch": 0
     },
     "instanceNameFormat": "Argo CD Task $(project)",

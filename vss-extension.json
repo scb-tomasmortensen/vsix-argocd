@@ -2,14 +2,14 @@
     "manifestVersion": 1,
     "id": "vsix-argocd",
     "name": "Argo CD Extension",
-    "version": "0.0.24",
+    "version": "0.1.0",
     "publisher": "tomasmortensen",
     "targets": [
         {
             "id": "Microsoft.VisualStudio.Services"
         }
     ],
-    "description": "Argo CD integration.",
+    "description": "Extend your pipelines with Argo CD integration.",
     "categories": [
         "Azure Pipelines"
     ],
