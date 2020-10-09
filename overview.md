@@ -26,6 +26,6 @@ Argo CD version 1.6.1+ (running in Openshift using Argo CD - version 0.0.13 oper
 
 ## Learn more ##
 
-The <a href="https://github.com/xxx" target="_blank">source</a> for this extension is on GitHub. Take, fork, and extend.
+The <a href="https://github.com/scb-tomasmortensen/vsix-argocd" target="_blank">source</a> for this extension is on GitHub. Take, fork, and extend.
 
-Let's discuss <a href="https://github.com/xxx" target="_blank">Issues and Improvements</a>
+Let's discuss <a href="https://github.com/scb-tomasmortensen/vsix-argocd/issues" target="_blank">Issues and Improvements</a>

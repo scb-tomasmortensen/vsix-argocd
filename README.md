@@ -1,66 +1,31 @@
-# Argo CD - Azure DevOps Extension
 
-A little extension to be able to fit into the Azure DevOps Pipelines.
+# Argo CD Extension for Azure Pipelines
 
-## Features
+This extension allows you to setup a service connection against your Argo CD server and execute synchronization calls from your CI/CD pipelines inside Azure DevOps. For example, instead of having automatic sync in Argo CD, you now have the option to Defer the task of synchronization to a specific time.
 
-Enables a service connection of type Argo CD to be setup.
-Sync - To be able to use the sheduling feature of Releases in ADS.
+### Highlights ###
 
-## How its made
+> Possibility to create service connection to Argo CD.
+>
+> Schedule deployment by deferred execution of sync command in your release pipelines.
+>
+> Includes DRY RUN option for testing.
 
-### Create folder structure
 
-```
-|--- README.md    
-|--- images                        
-    |--- extension-icon.png  
-|--- buildAndReleaseTask            // where your task scripts are placed
-|--- vss-extension.json             // extension's manifest
-```
+## Release notes ##
 
-### Install needed tooling
+* v0.1.0
+    
+    Service Connection and sync-command.
 
-TFX-CLI: `npm i -g tfx-cli`
-TypeScript Compiler: `npm install -g typescript`
+## Verified on the following platforms ##
 
-### How to run stuff
+Azure DevOps Server 2019
 
-Make sure you are in the correct folder (task) and compile typescript files using `tsc`.
-To run the task, we can use node like this: `node index.js`, make sure that any variables are set beforehand ($env:INPUT_SOMEVARIABLE "SomeValue")
+Argo CD version 1.6.1+ (running in Openshift using Argo CD - version 0.0.13 operator)
 
-tfx extension create --manifest-globs vss-extension.json
+## Learn more ##
 
-## Argo CD Setup
+The <a href="https://github.com/scb-tomasmortensen/vsix-argocd" target="_blank">source</a> for this extension is on GitHub. Take, fork, and extend.
 
-`argocd proj role create default sync-role`
-
-`argocd proj role create-token default sync-role -e 10m`
-
-argocd proj role list default
-
-argocd proj role get default sync-role
-
-argocd proj role add-policy default sync-role --action sync --permission allow --object devops-jedi
-argocd proj role add-policy default sync-role --action override --permission allow --object devops-jedi
-
-<https://argocd-server-argocd.apps.scbclu01.scbeval.net/api/v1/applications/devops-jedi/sync>
-
-{
-  "dryRun": false,
-  "prune": true,
-  "strategy": {
-    "apply": {
-      "force": true
-    }
-  }
-}
-
-## References
-
-<https://docs.microsoft.com/en-us/azure/devops/extend/develop/add-build-task?view=azure-devops>
-<https://docs.microsoft.com/en-us/azure/devops/extend/develop/integrate-build-task?view=azure-devops>
-<https://docs.microsoft.com/en-us/azure/devops/extend/develop/manifest?view=azure-devops>
-<https://www.guidgen.com/>
-<https://jsonpath.com/>
-<https://tools.knowledgewalls.com/jsontostring>
+Let's discuss <a href="https://github.com/scb-tomasmortensen/vsix-argocd/issues" target="_blank">Issues and Improvements</a>
