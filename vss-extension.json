@@ -28,6 +28,10 @@
         "cd",
         "continuous deployment"
     ],
+    "galleryFlags": [
+        "Free",
+        "Public"
+    ],
     "content": {
         "license": {
             "path": "license.md"
@@ -35,6 +39,24 @@
         "details": {
             "path": "overview.md"
         }
+    },
+    "links": {
+        "overview": {
+            "uri": "https://github.com/scb-tomasmortensen/vsix-argocd/blob/master/README.md"
+        },
+        "license": {
+            "uri": "https://github.com/scb-tomasmortensen/vsix-argocd/blob/master/license.md"
+        },
+        "repository": {
+            "uri": "https://github.com/scb-tomasmortensen/vsix-argocd"
+        },
+        "issues": {
+            "uri": "https://github.com/scb-tomasmortensen/vsix-argocd/issues"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/scb-tomasmortensen/vsix-argocd"
     },
     "contributions": [
         {
